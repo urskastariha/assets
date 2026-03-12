@@ -2,7 +2,6 @@ let dropdownEl;
 const lastDropdownOptions = {};
 
 window.addEventListener('message', (event) => {
-    console.log('Parent received message:', event.data);
     if (event.data?.type === 'customDropdownOpen') {
         const iframe = document.querySelector('iframe');
         const iframeRect = iframe ? iframe.getBoundingClientRect() : { top: 0, left: 0 };
@@ -84,12 +83,10 @@ window.addEventListener('message', (event) => {
         document.querySelectorAll('.custom-dropdown.calendar-dropdown').forEach(el => el.remove());
         if (dropdownEl) dropdownEl.remove(); // Close any open dropdown
         if (event.data.showLoader) {
-            console.log('Parent: Showing calendar loader');
             showLamCalendarLoader();
         }
     }
     if (event.data?.type === 'updateCalendar') {
-        console.log('Parent: Rendering calendar with slots:', event.data.slots);
         if (window.lamCalendarEl) window.lamCalendarEl.remove();
         renderLamCalendar({
             weekStart: event.data.weekStart,
@@ -141,7 +138,6 @@ function getLocalDateString(date) {
 
 function renderLamCalendar({ weekStart, slots, onSlotSelect, onPrev, onNext }) {
     document.querySelectorAll('.custom-dropdown.calendar-dropdown').forEach(el => el.remove());
-    console.log('Parent: renderLamCalendar called', { weekStart, slots });
     if (window.lamCalendarEl) window.lamCalendarEl.remove();
     const calendarEl = document.createElement('div');
     calendarEl.className = 'custom-dropdown calendar-dropdown';
